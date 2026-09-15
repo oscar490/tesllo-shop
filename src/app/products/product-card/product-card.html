@@ -5,8 +5,8 @@
       alt="Shoes" />
   </figure>
   <div class="card-body">
-    <h2 class="card-title">Card Title</h2>
-    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+    <h2 class="card-title">{{ title() }}</h2>
+    <p>{{ description() | slice:0:100 }}</p>
     <div class="card-actions justify-end">
       <a [routerLink]="['product', 't-shirt']" class="link link-accent">Ver más</a>
     </div>
