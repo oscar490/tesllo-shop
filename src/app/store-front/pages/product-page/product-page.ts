@@ -3,11 +3,13 @@ import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Product } from "@products/interfaces/product-response.interface";
 import { ProductService } from "@products/services/product.service";
+import { ProductCarrousel } from "@products/components/product-carrousel/product-carrousel";
 
 
 @Component({
   selector: 'product-page',
-  templateUrl: './product-page.html'
+  templateUrl: './product-page.html',
+  imports: [ProductCarrousel]
 })
 
 export class ProductPage implements OnInit {

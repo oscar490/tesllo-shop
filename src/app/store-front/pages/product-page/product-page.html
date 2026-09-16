@@ -5,5 +5,19 @@
   </div>
 }
 
-<h1 class="text-3xl font-bold font-montserrat">{{ this.product()?.title }}</h1>
-<p class="mt-5">{{ this.product()?.description }}</p>
+@if (product()) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <!-- Images -->
+    <product-carrousel [images]="product()?.images ?? []" />
+
+    <div>
+      <h2 class="text-2xl font-bold font-montserrat">{{ this.product()?.title }}</h2>
+      <div class="divider"></div>
+      <p class="mt-5">{{ this.product()?.description }}</p>
+    </div>
+
+  </div>
+}
+
+
+
