@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { ProductCardItem } from "@products/interfaces/product-card-item.interface";
-import { ProductCard } from "@products/product-card/product-card";
+import { ProductCard } from "@products/components/product-card/product-card";
+import { Product } from "@products/interfaces/product-response.interface";
 import { ProductService } from "@products/services/product.service";
 
 
@@ -14,11 +14,11 @@ import { ProductService } from "@products/services/product.service";
 export class HomePage implements OnInit {
 
   productService = inject(ProductService);
-  productCards = signal<ProductCardItem[]>([]);
+  products = signal<Product[]>([]);
 
   ngOnInit(): void {
-    this.productService.getProducts({}).subscribe((productCards: ProductCardItem[]) => {
-      this.productCards.set(productCards);
+    this.productService.getProducts({}).subscribe((products: Product[]) => {
+      this.products.set(products);
     })
   }
 
