@@ -1,4 +1,4 @@
-import { Product, ProductResponse } from './../interfaces/product-response.interface';
+import { Product, ProductResponse } from '@products/interfaces/product-response.interface';
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
@@ -33,6 +33,10 @@ export class ProductService {
 
   getFileProduct(fileName: string): string {
     return `${this._env.baseUrl}/files/product/${fileName}`;
+  }
+
+  getProductByIdSlug(slug: string): Observable<Product> {
+    return this._http.get<Product>(`${this._env.baseUrl}/products/${slug}`);
   }
 
 }

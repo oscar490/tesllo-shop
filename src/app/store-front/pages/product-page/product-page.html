@@ -1,1 +1,9 @@
-<h1>Product page</h1>
+
+@if (!product()) {
+  <div class="flex justify-center items-center h-screen">
+    <span class="loading loading-spinner loading-lg"></span>
+  </div>
+}
+
+<h1 class="text-3xl font-bold font-montserrat">{{ this.product()?.title }}</h1>
+<p class="mt-5">{{ this.product()?.description }}</p>
