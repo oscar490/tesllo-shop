@@ -30,16 +30,6 @@ export class GenderPage implements OnInit {
     map(({gender}) => gender)
   ));
 
-  titles: Title[] = [
-    {title: 'Hombres', router: 'men'},
-    {title: 'Mujeres', router: 'women'},
-    {title: 'Kids', router: 'kid'}
-  ];
-
-
-  titlePage = computed(() => {
-    return this.titles.filter((title: Title) => title.router == this.gender())[0];
-  })
 
   ngOnInit(): void {
     this._activeRouter.paramMap.subscribe((param: ParamMap) => {

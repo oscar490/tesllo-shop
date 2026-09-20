@@ -28,7 +28,7 @@ export class ProductService {
         map((productResponse: ProductResponse) => {
           return productResponse.products;
         })
-      )
+      );
   }
 
   getFileProduct(fileName: string): string {
