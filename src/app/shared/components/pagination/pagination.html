@@ -1,11 +1,13 @@
 <div class="join flex justify-center items-center mt-4 mb-10">
-  <input
-    class="join-item btn btn-square"
-    type="radio"
-    name="options"
-    aria-label="1"
-    checked="checked" />
-  <input class="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-  <input class="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-  <input class="join-item btn btn-square" type="radio" name="options" aria-label="4" />
+  @for (page of this.getPageList(); track $index) {
+    <input class="join-item btn btn-square"
+      type="radio"
+      name="options"
+      [aria-label]="page"
+      [checked]="page == this.activePage() ? 'checked': ''"
+      [routerLink]="[]"
+      [queryParams]="{page: page}"
+      (click)="this.activePage.set(page)"
+    />
+  }
 </div>

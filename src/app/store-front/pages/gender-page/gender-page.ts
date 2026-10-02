@@ -7,7 +7,7 @@ import { map, tap } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ProductList } from "@products/components/product-list/product-list";
 import { ProductService } from "@products/services/product.service";
-import { Product } from "@products/interfaces/product-response.interface";
+import { Product, ProductResponse } from "@products/interfaces/product-response.interface";
 
 interface Title {
   title: string,
@@ -33,8 +33,8 @@ export class GenderPage implements OnInit {
 
   ngOnInit(): void {
     this._activeRouter.paramMap.subscribe((param: ParamMap) => {
-      this._productService.getProducts({gender: this.gender()}).subscribe((products: Product[]) => {
-        this.products.set(products);
+      this._productService.getProducts({gender: this.gender()}).subscribe((productResponse: ProductResponse) => {
+        this.products.set(productResponse.products);
       })
     })
   }

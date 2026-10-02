@@ -2,7 +2,7 @@ import { ProductService } from '@products/services/product.service';
 
 import { SlicePipe } from "@angular/common";
 import { Component, computed, inject, Inject, input } from "@angular/core"
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { Product } from "@products/interfaces/product-response.interface";
 import { environment } from "../../../../environments/environment";
 import { ProductImagePipe } from '@products/pipes/product-image.pipe';
@@ -20,6 +20,7 @@ export class ProductCard {
 
   _env = environment;
   _productService = inject(ProductService);
+  _route = inject(ActivatedRoute);
 
   imageUrl = computed(() => {
     return this._productService.getFileProduct(this.product().images[0]);

@@ -1,9 +1,12 @@
+import { map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { ProductCard } from "@products/components/product-card/product-card";
-import { Product } from "@products/interfaces/product-response.interface";
+import { Product, ProductResponse } from "@products/interfaces/product-response.interface";
 import { ProductService } from "@products/services/product.service";
 import { Pagination } from "@shared/components/pagination/pagination";
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 
 
@@ -16,16 +19,28 @@ import { Pagination } from "@shared/components/pagination/pagination";
 export class HomePage implements OnInit {
 
   productService = inject(ProductService);
+  paginationService = inject(PaginationService);
+
   products = signal<Product[]>([]);
   route = inject(ActivatedRoute);
+  pages = signal(0);
+
+  currentPage = signal<number>(1);
+
 
   ngOnInit(): void {
 
-    const pageParam = this.route.snapshot.queryParamMap.get('page') ?? 1;
+    this.route.queryParamMap.subscribe((param: ParamMap) => {
 
-    this.productService.getProducts({}).subscribe((products: Product[]) => {
-      this.products.set(products);
+      this.currentPage.set(this.paginationService.currentPage());
+
+      this.productService.getProducts({offset: (this.currentPage() - 1) * 9}).subscribe((productResponse: ProductResponse) => {
+        this.products.set(productResponse.products);
+        this.pages.set(productResponse.pages);
+      });
     })
+
+
   }
 
 }
