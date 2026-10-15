@@ -3,13 +3,14 @@ import { Component, computed, DoCheck, inject, OnInit, signal } from "@angular/c
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { title } from "process";
 import { routes } from "../../../app.routes";
-import { map, tap } from "rxjs";
+import { combineLatest, map, tap } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ProductList } from "@products/components/product-list/product-list";
 import { ProductService } from "@products/services/product.service";
 import { Product, ProductResponse } from "@products/interfaces/product-response.interface";
 import { PaginationService } from "@shared/components/pagination/pagination.service";
 import { Pagination } from "@shared/components/pagination/pagination";
+import { ProductsData } from "@products/interfaces/products-data";
 
 interface Title {
   title: string,
@@ -29,24 +30,28 @@ export class GenderPage implements OnInit {
   _paginateService = inject(PaginationService);
 
   products = signal<Product[]>([]);
+
   gender = toSignal(this._activeRouter.params.pipe(
     map(({gender}) => gender)
   ));
+
   pages = signal<number>(0);
   currentPage = signal<number>(1);
 
 
   ngOnInit(): void {
-    this._activeRouter.queryParamMap.subscribe((param: ParamMap) => {
+    combineLatest([
+      this._activeRouter.paramMap,
+      this._activeRouter.queryParamMap
+    ]).subscribe(([param, queryParams]) => {
 
       this.currentPage.set(this._paginateService.currentPage());
-      const offset = (this.currentPage() - 1) * 9;
 
-      this._productService.getProducts({gender: this.gender(), offset: offset}).subscribe((productResponse: ProductResponse) => {
-        this.products.set(productResponse.products);
-        this.pages.set(productResponse.pages);
+      this._paginateService.getListProductsPaginate({gender: param.get('gender') ?? 'all'}).subscribe((productsData: ProductsData) => {
+        this.products.set(productsData.products);
+        this.pages.set(productsData.pages);
       })
-    })
+    });
   }
 
 }

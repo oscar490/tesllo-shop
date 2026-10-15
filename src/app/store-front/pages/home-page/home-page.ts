@@ -1,5 +1,3 @@
-import { map } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { ProductCard } from "@products/components/product-card/product-card";
@@ -7,6 +5,7 @@ import { Product, ProductResponse } from "@products/interfaces/product-response.
 import { ProductService } from "@products/services/product.service";
 import { Pagination } from "@shared/components/pagination/pagination";
 import { PaginationService } from '@shared/components/pagination/pagination.service';
+import { ProductsData } from '@products/interfaces/products-data';
 
 
 
@@ -31,15 +30,13 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
 
     this.route.queryParamMap.subscribe((param: ParamMap) => {
-
       this.currentPage.set(this.paginationService.currentPage());
 
-      this.productService.getProducts({offset: (this.currentPage() - 1) * 9}).subscribe((productResponse: ProductResponse) => {
+      this.paginationService.getListProductsPaginate().subscribe((productResponse: ProductResponse) => {
         this.products.set(productResponse.products);
         this.pages.set(productResponse.pages);
       });
     })
-
 
   }
 

@@ -1,4 +1,4 @@
-import { Component, computed, input, OnInit, signal } from "@angular/core";
+import { Component, computed, effect, input, OnInit, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -7,20 +7,21 @@ import { RouterLink } from "@angular/router";
   imports: [RouterLink]
 })
 
-export class Pagination implements OnInit {
+export class Pagination {
 
   pages = input(0);
   currentPage = input<number>(1);
 
   activePage = signal<number>(1);
 
+  constructor() {
+    effect(() => {
+      this.activePage.set(this.currentPage());
+    })
+  }
+
   getPageList = computed(() => {
     return Array.from({length: this.pages()}, (_, index) => index + 1);
   })
-
-  ngOnInit(): void {
-    this.activePage.set(this.currentPage());
-  }
-
 
 }
