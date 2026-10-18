@@ -36,15 +36,6 @@ export class PaginationService {
     {initialValue: 1}
   );
 
-  constructor() {
-    //  this.loadFromLocalStorage();
-  }
-
-
-  private loadFromLocalStorage(): void {
-
-  }
-
 
 
   private setPageProducts(category: any, productResponse: ProductResponse) {
@@ -52,12 +43,8 @@ export class PaginationService {
 
     if (categoryMap) {
       categoryMap.set(this.currentPage(), productResponse)
-      console.log(categoryMap, JSON.stringify(categoryMap));
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(categoryMap));
     }
   }
-
-
 
 
   getListProductsPaginate(options?: Options): Observable<ProductResponse> {
