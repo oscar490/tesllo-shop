@@ -1,0 +1,57 @@
+<div class="flex justify-center">
+  <div class="flex-col mt-5">
+    <h1 class="text-3xl font-bold font-montserrat text-center mb-5">Iniciar sesíon</h1>
+    <div class="mt-4 flex justify-center">
+      <form class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" [formGroup]="loginForm" (ngSubmit)="login()">
+        <fieldset class="fieldset">
+          <label class="label">Email</label>
+          <input type="email" class="input validator" placeholder="Email" required formControlName="email" />
+
+          @if (email.hasError('required')) {
+            <p class="validator-hint hidden">Es obligatorio</p>
+          }
+
+          @if (email.hasError('email')) {
+            <p class="validator-hint hidden">Formato inválido</p>
+          }
+
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <span class="label">Password</span>
+          <input type="password" class="input validator"
+            placeholder="Password"
+            minlength="6"
+            required
+            formControlName="password"
+            pattern="(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"
+          />
+          @if (password.hasError('required')) {
+            <span class="validator-hint hidden">Es obligatorio</span>
+
+          } @else if (password.hasError('minlength')) {
+            <span class="validator-hint hidden">Mínimo 6 caracteres</span>
+
+          } @else if (password.hasError('pattern')) {
+            <span class="validator-hint hidden">Formato no es válido. La contraseña debe incluir letras mayúsculas, minúsculas y al menos un número.</span>
+
+          }
+        </fieldset>
+
+        <button class="btn btn-neutral mt-4" type="submit">
+          @if (loading()) {
+            <span class="loading loading-spinner"></span>
+          } @else {
+            Login
+          }
+        </button>
+        <button class="btn btn-ghost mt-1" type="reset">Reset</button>
+      </form>
+    </div>
+    <div class="mt-5">
+      <alert-error/>
+    </div>
+  </div>
+</div>
+
+
